@@ -12,4 +12,6 @@ app = Robyn(__file__)
 async def h(request):
     return "Hello, world!"
 
-app.start("0.0.0.0:{PORT}")
+
+if __name__ == '__main__':
+    app.start()
