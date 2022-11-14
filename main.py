@@ -14,4 +14,4 @@ async def h(request):
 
 
 if __name__ == '__main__':
-    app.start()
+    app.start(debug=True, port=os.getenv("PORT", default=5000))
