@@ -12,4 +12,4 @@ app = Robyn(__file__)
 async def h(request):
     return "Hello, world!"
 
-app.start(PORT)
+app.start("0.0.0.0":PORT)
