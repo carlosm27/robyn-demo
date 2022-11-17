@@ -1,6 +1,7 @@
 from robyn import Robyn, jsonify
 import schemas
 import models
+from helper import get_item
 
 import json
 
@@ -14,6 +15,11 @@ fake_database = {
     "3": {"fruit":"Pinapple"}
 }
 
+fake_fruit_database = [
+    {"id":1, "fruit":"Apple"},
+    {"id":2, "fruit":"Orange"},
+    {"id":3, "fruit":"Pinapple"}
+]
 
 @app.get("/")
 async def h(request):
@@ -24,30 +30,35 @@ async def h(request):
 
 @app.get("/fruits")
 def all_fruits(request):
-    print(fake_database)
-    return jsonify(fake_database)
+    print(fake_fruit_database)
+    return jsonify(fake_fruit_database)
 
 
 
 @app.get("/fruit/:id")
 def get_fruit(request):
     id = request['params']['id']
-    fruit = fake_database[id]
-    print(fruit)
+    fruit_id = int(id)
+    
+    fruit = get_item(fruit_id, fake_fruit_database)
+    
     return jsonify(fruit)
+
 
 @app.post("/fruit")
 def add_fruit(request):
     
     body = bytearray(request['body']).decode("utf-8")
     print(body)
+
     fruit = json.loads(body)
     print(fruit)
+
     new_id = len(fake_database.keys()) + 1
-    str(new_id)
+    fruit = {"id":new_id, "fruit":fruit['fruit']}
     
-    fake_database[new_id] = fruit
-    print(fake_database)
+    fake_fruit_database.append(fruit)
+    print(fake_fruit_database)
     return jsonify(fruit)
 
 
@@ -58,18 +69,22 @@ def update_fruit(request):
     id = request["params"]["id"]
     body = bytearray(request['body']).decode("utf-8")
     fruit = json.loads(body)
-    fake_database[id]['fruit'] = fruit['fruit']
-    print(fake_database)
-    return jsonify(fake_database)
+
+    fruit_id = int(id)
+    fruit_dict = get_item(fruit_id,fake_fruit_database)
+    fruit_dict['fruit'] = fruit['fruit']
+
+    return jsonify(fruit_dict)
 
 
 
 @app.delete("/fruit/:id")
 def delete_fruit(request):
     id = request["params"]["id"]
-    print(id)
-    print(fake_database[id])
-    del fake_database[id]
+    
+    fruit_id = int(id)
+    fruit_dict = get_item(fruit_id,fake_fruit_database)
+    fake_fruit_database.remove(fruit_dict)
     
     
     return jsonify({"Message":"Fruit was deleted"})
