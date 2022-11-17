@@ -9,17 +9,13 @@ import json
 app = Robyn(__file__)
 
 
-fake_database = {
-    "1": {"fruit":"Apple"},
-    "2": {"fruit":"Orange"},
-    "3": {"fruit":"Pinapple"}
-}
 
 fake_fruit_database = [
     {"id":1, "fruit":"Apple"},
     {"id":2, "fruit":"Orange"},
     {"id":3, "fruit":"Pinapple"}
 ]
+
 
 @app.get("/")
 async def h(request):
@@ -45,20 +41,18 @@ def get_fruit(request):
     return jsonify(fruit)
 
 
+
 @app.post("/fruit")
 def add_fruit(request):
     
     body = bytearray(request['body']).decode("utf-8")
-    print(body)
 
     fruit = json.loads(body)
-    print(fruit)
 
     new_id = len(fake_database.keys()) + 1
     fruit = {"id":new_id, "fruit":fruit['fruit']}
     
     fake_fruit_database.append(fruit)
-    print(fake_fruit_database)
     return jsonify(fruit)
 
 
