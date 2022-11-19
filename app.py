@@ -9,7 +9,6 @@ import json
 app = Robyn(__file__)
 
 
-
 fake_fruit_database = [
     {"id":1, "fruit":"Apple"},
     {"id":2, "fruit":"Orange"},
@@ -36,9 +35,14 @@ def get_fruit(request):
     id = request['params']['id']
     fruit_id = int(id)
     
+
     fruit = get_item(fruit_id, fake_fruit_database)
-    
-    return jsonify(fruit)
+
+    print(fruit)
+    if fruit == {}:
+        return jsonify({"message":"Fruit not Found"})
+    else:    
+        return jsonify(fruit)
 
 
 
@@ -57,7 +61,6 @@ def add_fruit(request):
 
 
 
-
 @app.put("/fruit/:id")
 def update_fruit(request):
     id = request["params"]["id"]
@@ -66,10 +69,13 @@ def update_fruit(request):
 
     fruit_id = int(id)
     fruit_dict = get_item(fruit_id,fake_fruit_database)
-    fruit_dict['fruit'] = fruit['fruit']
 
-    return jsonify(fruit_dict)
-
+    if fruit_dict == {}:
+        return jsonify({"message":"Fruit not Found"})
+    else:    
+        fruit_dict['fruit'] = fruit['fruit']
+        return jsonify(fruit)
+    
 
 
 @app.delete("/fruit/:id")
@@ -78,10 +84,12 @@ def delete_fruit(request):
     
     fruit_id = int(id)
     fruit_dict = get_item(fruit_id,fake_fruit_database)
-    fake_fruit_database.remove(fruit_dict)
-    
-    
-    return jsonify({"Message":"Fruit was deleted"})
+
+    if fruit_dict == {}:
+        return jsonify({"message":"Fruit not Found"})
+    else:    
+        fake_fruit_database.remove(fruit_dict)
+        return jsonify({"Message":"Fruit was deleted"})
 
 
 
