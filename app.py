@@ -1,4 +1,4 @@
-from robyn import Robyn, jsonify
+from robyn import Robyn, jsonify, static_file
 import schemas
 import models
 from helper import get_item
@@ -16,12 +16,14 @@ fake_fruit_database = [
 ]
 
 
-@app.get("/")
+@app.get("/hello")
 async def h(request):
     print(request)
     return "Hello, world!"
 
-
+@app.get("/")
+async def get_page(request):
+    return static_file("./index.html")
 
 @app.get("/fruits")
 def all_fruits(request):
