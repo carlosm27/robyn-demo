@@ -94,12 +94,4 @@ def delete_fruit(request):
         return jsonify({"Message":"Fruit was deleted"})
 
 
-
-
-
-
-
-
-
-
 app.start()
