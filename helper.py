@@ -1,10 +1,4 @@
 
-fake_fruit_database = [
-    {"id":1, "fruit":"Apple"},
-    {"id":2, "fruit":"Orange"},
-    {"id":3, "fruit":"Pinapple"}
-]
-fruit_id = 2
 
 def get_item(id: int, db: list):
     fruit = {}
