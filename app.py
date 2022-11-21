@@ -1,6 +1,4 @@
 from robyn import Robyn, jsonify, static_file
-import schemas
-import models
 from helper import get_item
 
 import json
