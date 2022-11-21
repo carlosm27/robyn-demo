@@ -1,6 +1,5 @@
-from robyn import Robyn, jsonify, static_file
+from robyn import Robyn, jsonify, static_file, Router
 from helper import get_item
-
 import json
 
 
@@ -32,6 +31,7 @@ def all_fruits(request):
 
 @app.get("/fruit/:id")
 def get_fruit(request):
+    print(request)
     id = request['params']['id']
     fruit_id = int(id)
     
@@ -40,7 +40,7 @@ def get_fruit(request):
 
     print(fruit)
     if fruit == {}:
-        return jsonify({"message":"Fruit not Found"})
+        return {"status_code":404,"body":"Fruit not Found", "type": "text"}
     else:    
         return jsonify(fruit)
 
@@ -52,12 +52,14 @@ def add_fruit(request):
     body = bytearray(request['body']).decode("utf-8")
 
     fruit = json.loads(body)
+   
 
-    new_id = len(fake_database.keys()) + 1
-    fruit = {"id":new_id, "fruit":fruit['fruit']}
+    new_id = fake_fruit_database[-1]['id'] + 1
     
-    fake_fruit_database.append(fruit)
-    return jsonify(fruit)
+    fruit_dict = {"id":new_id, "fruit":fruit['fruit']}
+    
+    fake_fruit_database.append(fruit_dict)
+    return {"status_code":201, "body":jsonify(fruit_dict), "type": "json"}
 
 
 
@@ -71,7 +73,7 @@ def update_fruit(request):
     fruit_dict = get_item(fruit_id,fake_fruit_database)
 
     if fruit_dict == {}:
-        return jsonify({"message":"Fruit not Found"})
+        return {"status_code":404,"body":"Fruit not Found", "type": "text"}
     else:    
         fruit_dict['fruit'] = fruit['fruit']
         return jsonify(fruit)
@@ -86,7 +88,7 @@ def delete_fruit(request):
     fruit_dict = get_item(fruit_id,fake_fruit_database)
 
     if fruit_dict == {}:
-        return jsonify({"message":"Fruit not Found"})
+        return {"status_code":404,"body":"Fruit not Found", "type": "text"}
     else:    
         fake_fruit_database.remove(fruit_dict)
         return jsonify({"Message":"Fruit was deleted"})
