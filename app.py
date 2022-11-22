@@ -9,7 +9,7 @@ app = Robyn(__file__)
 fake_fruit_database = [
     {"id":1, "fruit":"Apple"},
     {"id":2, "fruit":"Orange"},
-    {"id":3, "fruit":"Pinapple"}
+    {"id":3, "fruit":"Pineapple"}
 ]
 
 
