@@ -13,12 +13,12 @@ fake_fruit_database = [
 ]
 
 
-@app.get("/hello")
-async def h(request):
+@app.get("/")
+async def hello(request):
     print(request)
     return "Hello, world!"
 
-@app.get("/")
+@app.get("/index")
 async def get_page(request):
     return static_file("./index.html")
 
