@@ -15,7 +15,7 @@ fake_fruit_database = [
 
 @app.get("/")
 async def hello(request):
-    print(request)
+    
     return "Hello, world!"
 
 @app.get("/index")
@@ -24,21 +24,18 @@ async def get_page(request):
 
 @app.get("/fruits")
 def all_fruits(request):
-    print(fake_fruit_database)
     return jsonify(fake_fruit_database)
 
 
 
 @app.get("/fruit/:id")
 def get_fruit(request):
-    print(request)
     id = request['params']['id']
     fruit_id = int(id)
     
 
     fruit = get_item(fruit_id, fake_fruit_database)
 
-    print(fruit)
     if fruit == {}:
         return {"status_code":404,"body":"Fruit not Found", "type": "text"}
     else:    
