@@ -1,2 +1,2 @@
-# robyn_demo
+# robyn-demo
 A simple demo of Robyn
